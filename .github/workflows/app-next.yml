@@ -1,0 +1,49 @@
+name: app-next CI
+
+on:
+  push:
+    branches: [rebuild]
+    paths:
+      - 'app-next/**'
+      - '.github/workflows/app-next.yml'
+  pull_request:
+    # No base-branch filter — stacked PRs target their predecessor
+    # (e.g. app-next/02-* → app-next/01.5-*), not `rebuild` directly, and
+    # still need CI coverage.
+    paths:
+      - 'app-next/**'
+      - '.github/workflows/app-next.yml'
+
+defaults:
+  run:
+    working-directory: app-next
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          # defaults.run.working-directory affects `run:` steps only, not action
+          # inputs — so this action sees the repo root and needs an explicit
+          # path to the package.json that carries the packageManager field.
+          package_json_file: app-next/package.json
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'app-next/.nvmrc'
+          cache: 'pnpm'
+          cache-dependency-path: 'app-next/pnpm-lock.yaml'
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Type-check
+        run: pnpm tsc
+
+      - name: Build
+        run: pnpm build
