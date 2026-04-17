@@ -37,12 +37,14 @@ pnpm dev        # starts Vite at http://localhost:3000
 ```
 
 Build:
+
 ```bash
 pnpm build
 pnpm preview
 ```
 
 Type-check:
+
 ```bash
 pnpm tsc
 ```
