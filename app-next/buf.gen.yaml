@@ -1,0 +1,14 @@
+version: v2
+
+# Wipe src/gen/ before each run so deletions in .proto files propagate cleanly.
+clean: true
+
+plugins:
+  # protobuf-es v2 generates messages + service descriptors in a single TS file
+  # per .proto input. uint64 / int64 fields arrive as `bigint` on the wire — no
+  # more hand-patching [jstype = JS_STRING] like the legacy app/scripts/build-protos.js
+  # had to. That single teaching moment is why this keystone PR exists.
+  - local: protoc-gen-es
+    out: src/gen
+    opt:
+      - target=ts
