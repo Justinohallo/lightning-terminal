@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(pnpm *)",
+      "Bash(git status)",
+      "Bash(git status --short)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git branch)",
+      "Bash(git branch --show-current)",
+      "Bash(git branch --list *)",
+      "Bash(git checkout *)",
+      "Bash(git add app-next/*)",
+      "Bash(git add app-next/**/*)",
+      "Bash(git add .github/workflows/app-next.yml)",
+      "Bash(git rm --cached app-next/*)",
+      "Bash(git rm --cached app-next/**/*)",
+      "Bash(git fetch upstream)",
+      "Bash(git fetch origin)",
+      "Bash(git stash *)",
+      "Bash(buf *)",
+      "Bash(npx playwright install *)",
+      "Bash(node --version)",
+      "Bash(pnpm --version)",
+      "Bash(gh pr view *)",
+      "Bash(gh pr list *)",
+      "Bash(gh repo view *)",
+      "Bash(gh run list *)",
+      "Bash(gh run view *)"
+    ],
+    "ask": [
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git merge *)",
+      "Bash(git rebase *)",
+      "Bash(git reset *)",
+      "Bash(git checkout master*)",
+      "Bash(git checkout rebuild*)",
+      "Bash(gh pr create *)",
+      "Bash(gh pr merge *)",
+      "Bash(gh pr edit *)",
+      "Bash(gh pr close *)",
+      "Bash(gh workflow run *)"
+    ],
+    "deny": [
+      "Write(//Users/justinohalloran/Documents/justinohalloran/bitcoin/lightning-terminal/app/**)",
+      "Edit(//Users/justinohalloran/Documents/justinohalloran/bitcoin/lightning-terminal/app/**)",
+      "Bash(git push origin master*)",
+      "Bash(git push upstream*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(rm -rf *)",
+      "Bash(sudo *)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -f app-next/package.json ]; then cd app-next && pnpm tsc 2>&1 | tail -3 || true; fi"
+          }
+        ]
+      }
+    ]
+  }
+}
