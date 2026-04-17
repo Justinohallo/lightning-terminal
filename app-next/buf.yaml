@@ -1,0 +1,5 @@
+version: v2
+modules:
+  - path: proto
+# Lint is disabled — these .proto files are third-party (downloaded from upstream
+# LND / Loop / Pool releases + the repo's own litrpc/). They're not ours to style.
