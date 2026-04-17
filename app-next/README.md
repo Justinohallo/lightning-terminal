@@ -54,5 +54,24 @@ Router · Connect-ES · Zustand · React Hook Form + Zod · Vitest · Playwright
 
 ## Roadmap
 
-Tracked as a series of focused PRs. Each PR teaches one idea. See the pinned tracking issue
-in this fork.
+The full PR-sequenced rebuild plan lives in **[`docs/ROADMAP.md`](./docs/ROADMAP.md)** —
+phases, keystone PRs, architecture decisions, and the git workflow are all there.
+
+## Built with Claude Code
+
+This rebuild is implemented primarily by [Claude Code](https://claude.com/claude-code),
+with a human doing review and pattern enforcement. The agent infrastructure is committed
+to the repo for reproducibility:
+
+- **[`CLAUDE.md`](./CLAUDE.md)** — standing rules (architecture invariants, file layout,
+  coding conventions, git rules) that Claude reads at the start of every session.
+- **[`.claude/settings.json`](./.claude/settings.json)** — scoped permissions so the agent
+  can run `pnpm`, common `git` / `gh` read commands freely, but confirms before any
+  shared-state action (commit, push, PR). `app/**` is in the deny list so no
+  production-code changes can leak in.
+- **[`.claude/commands/`](./.claude/commands/)** — slash commands for recurring flows:
+  `/pr <NN>`, `/sync-upstream`, `/verify`, `/prep-merge`.
+- **[`.claude/agents/`](./.claude/agents/)** — specialized sub-agents: `band-reviewer`
+  (catches architecture-invariant violations before review), `test-writer`, `story-writer`.
+
+The session cadence for each PR is documented in `CLAUDE.md` § "PR flow".
