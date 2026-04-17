@@ -45,5 +45,11 @@ jobs:
       - name: Type-check
         run: pnpm tsc
 
+      - name: Lint
+        run: pnpm lint
+
+      - name: Format check
+        run: pnpm format:check
+
       - name: Build
         run: pnpm build

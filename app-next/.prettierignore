@@ -1,0 +1,10 @@
+node_modules
+dist
+pnpm-lock.yaml
+src/gen
+*.tsbuildinfo
+
+# Handcrafted docs — structure is load-bearing, don't reflow
+CLAUDE.md
+docs/ROADMAP.md
+.claude/
